@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"module": "esnext",
+		"moduleResolution": "nodenext",
+		"allowJs": true,
+		"sourceMap": true,
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"strictPropertyInitialization": false,
+		"strict": false,
+		"outDir": ".build/"
+	},
+	"exclude": [
+		"./build/**/*"
+	]
+}
