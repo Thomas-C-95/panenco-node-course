@@ -1,16 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { UserStore } from "./user.store.js";
+import { NotFound } from "@panenco/papi";
 
-export const get = async(req: Request, res: Response, next: NextFunction) => {
+export const get = (idString: string) => {
 
-    const id = Number(req.params.id);
+    const id = Number(idString);
     const user = UserStore.get(id);
 
     if (!user) {
-        res.status(404).json({'error': 'User not found'});
-        res.send();
-        return;
+        throw new NotFound('userNotFound', "User not found");
     }
 
-    res.json(user);
+    return user;
 }

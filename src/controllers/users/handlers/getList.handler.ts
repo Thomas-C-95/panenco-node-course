@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserStore } from './user.store.js';
+import { User, UserStore } from './user.store.js';
+import { SearchQuery } from '../../../contracts/search.query.js';
 
 // handlers/getList.handler.js
-export const getList = async (req: Request, res: Response, next: NextFunction) => {
+export const getList = (query: SearchQuery): [User[], number] => {
 	
     //const search_term = req.query.search? String(req.query.search): undefined; 
     
-    const users = UserStore.find(req.query.search?.toString());
-    res.json(users);
+    const users = UserStore.find(query.search);
+    return [users, users.length];
 };

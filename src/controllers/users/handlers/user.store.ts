@@ -30,7 +30,8 @@ export class UserStore {
 
 	static update(id: number, input: User): User {
 		const current = this.get(id);
-		const user = {...current, ...input};
+		// const user = {...current, ...input};
+		const user = input;
 		this.users.splice(
 			this.users.findIndex((x) => x === current),
 			1,

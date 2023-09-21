@@ -1,18 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { UserStore } from "./user.store.js";
+import { NotFound } from "@panenco/papi";
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteUser = async (idString: string) => {
 
-    const id = Number(req.params.id);
+    const id = Number(idString);
     const user = UserStore.get(id);
 
     if (!user) {
-        res.status(404).json({'error': 'User not found'});
-        res.send();
-        return;
+        throw new NotFound('userNotFound', "User not found"); 
     }
 
     UserStore.delete(id);
-    res.status(204);
-    res.send();
+    return null;
 } 
