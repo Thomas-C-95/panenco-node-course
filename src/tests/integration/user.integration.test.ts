@@ -81,7 +81,7 @@ describe('Integration tests', () => {
             .get(`/api/users`)
             .expect(StatusCode.ok);
 
-            expect(getResponse2.some((x)=> x.name === newuser.name)).false;
+            expect(UserStore.users.some((x)=> x.name === newuser.name)).false;
 
 
         })
