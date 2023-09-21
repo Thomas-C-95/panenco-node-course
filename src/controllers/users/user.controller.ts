@@ -10,6 +10,7 @@ import { Authorized, Delete, Get, JsonController, Param, Patch, Post, UseBefore 
 import { Body, ListRepresenter, Query, Representer, StatusCode} from '@panenco/papi'
 import { SearchQuery } from '../../contracts/search.query.js';
 import { UserView } from '../../contracts/user.view.js';
+import { OpenAPI } from 'routing-controllers-openapi';
 
 @JsonController("/users")
 export class UserController {
@@ -17,12 +18,14 @@ export class UserController {
     @Get("/")
     @Authorized()
     @ListRepresenter(UserView)
+    @OpenAPI({summary: "Get list of users"})
     async getList(@Query() query: SearchQuery) {
         return getList(query);
     }
 
     @Get("/:id")
     @Authorized()
+    @OpenAPI({summary: "Get user by id"})
     @Representer(UserView, StatusCode.ok)
     async get(@Param("id") id: string) {
         return get(id);
@@ -30,6 +33,7 @@ export class UserController {
 
     @Post("/")
     @Representer(UserView, StatusCode.created)
+    @OpenAPI({summary: "Create new user"})
     async create(@Body() body: UserBody) {
         return create(body);
     }
@@ -37,6 +41,7 @@ export class UserController {
     @Patch("/:id")
     @Authorized()
     @Representer(UserView)
+    @OpenAPI({summary: "Update user"})
     async update(@Body({}, {skipMissingProperties: true}) body: UserBody,
                  @Param("id") id: string) {
         return update(body, id);
@@ -45,6 +50,7 @@ export class UserController {
     @Delete("/:id")
     @Authorized()
     @Representer(null, StatusCode.noContent)
+    @OpenAPI({summary: "Delete user"})
     async delete(@Param("id") id: string) {
         return deleteUser(id);
     }
