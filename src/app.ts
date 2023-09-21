@@ -3,7 +3,8 @@ import 'express-async-errors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import { UserController } from './controllers/users/user.controller.js';
 import { useExpressServer } from 'routing-controllers';
-import { errorMiddleware } from '@panenco/papi';
+import { errorMiddleware, getAuthenticator } from '@panenco/papi';
+import { AuthController } from './controllers/auth/auth.controller.js';
 
 export class App {
 
@@ -26,8 +27,7 @@ export class App {
         })
 
         // Init routes
-        this.initializeControllers([UserController]);
-        // this.host.use(`/api/${usersRoute.path}`, usersRoute.router);
+        this.initializeControllers([UserController, AuthController]);
 
         this.host.use(errorMiddleware);
 
@@ -42,6 +42,7 @@ export class App {
         controllers, // Provide the controllers. Currently this won't work yet, first we need to convert the Route to a routing-controllers controller.
         defaultErrorHandler: false, // Disable the default error handler. We will handle errors through papi later.
         routePrefix: "/api", // Map all routes to the `/api` path.
+        authorizationChecker: getAuthenticator('validatedUser'), // Tell routing-controllers to use the papi authentication checker
         });
     }
 

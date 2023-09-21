@@ -6,6 +6,7 @@ import { User, UserStore } from "../../controllers/users/handlers/user.store.js"
 import { create } from "../../controllers/users/handlers/create.handler.js";
 import { expect } from "chai";
 import { StatusCode } from "@panenco/papi";
+import { LoginBody } from "../../contracts/login.body.js";
 
 const userFixtures: User[] = [
     {
@@ -45,14 +46,25 @@ describe('Integration tests', () => {
             .send({
                 ...newuser,
             })
-            .set('x-auth','api-key')
             .expect(StatusCode.created);
 
             expect(UserStore.users.some((x)=> x.name === newuser.name)).true;
 
+            // Login
+            const {body: loginResponse} = await request
+            .post('/api/auth/tokens')
+            .send( {
+                email: 'newuser@panenco.com',
+                password: 'newuserunsafepassword'
+            } as LoginBody)
+            .expect(StatusCode.ok);
+
+            const token = loginResponse.token;
+
             // Get user by ID
             const {body: getResponse} = await request
             .get(`/api/users/${createResponse.id}`)
+            .set('x-auth',token)
             .expect(StatusCode.ok);
 
             expect(getResponse.name == newuser.name).true;
@@ -65,6 +77,7 @@ describe('Integration tests', () => {
             .send({
                 email: 'test-user+updated@panenco.com',
             } as User)
+            .set('x-auth',token)
             .expect(200);
 
             expect(updateResponse.email == 'test-user+updated@panenco.com').true;
@@ -74,11 +87,13 @@ describe('Integration tests', () => {
             // Delete user
             const {body: deleteResponse} = await request
             .delete(`/api/users/${createResponse.id}`)
+            .set('x-auth',token)
             .expect(StatusCode.noContent);
 
             // Check that user is not in store anymore
             const {body: getResponse2} = await request
             .get(`/api/users`)
+            .set('x-auth',token)
             .expect(StatusCode.ok);
 
             expect(UserStore.users.some((x)=> x.name === newuser.name)).false;
