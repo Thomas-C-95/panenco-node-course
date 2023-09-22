@@ -9,7 +9,7 @@ import { getMetadataStorage } from 'class-validator';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
-import { MikroORM } from '@mikro-orm/core';
+import { MikroORM, RequestContext } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import ormConfig from './orm.config.js';
 
@@ -30,6 +30,10 @@ export class App {
             console.log(req.method, req.url);
             next();
         })
+
+        this.host.use((req, __, next: NextFunction) => {
+            RequestContext.create(this.orm.em, next);
+        });
 
         this.host.get('/', (req: Request, res: Response, next: NextFunction) => {
             res.send('Hello World');

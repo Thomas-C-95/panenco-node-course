@@ -1,16 +1,12 @@
-import { NextFunction, Request, Response } from "express";
-import { UserStore } from "./user.store.js";
 import { NotFound } from "@panenco/papi";
+import { RequestContext } from "@mikro-orm/core";
+import { User } from "../../../entitites/user.entity.js";
 
 export const deleteUser = async (idString: string) => {
 
-    const id = Number(idString);
-    const user = UserStore.get(id);
+    const em = RequestContext.getEntityManager();
+    const user = await em.findOneOrFail(User, {id: idString});
 
-    if (!user) {
-        throw new NotFound('userNotFound', "User not found"); 
-    }
-
-    UserStore.delete(id);
+    em.removeAndFlush(user);
     return null;
 } 

@@ -1,14 +1,15 @@
 import { NotFound, Unauthorized, createAccessToken } from "@panenco/papi";
-import { AccessTokenView } from "../../../contracts/accesstoken.view.js";
 import { LoginBody } from "../../../contracts/login.body.js";
-import { UserStore } from "../../users/handlers/user.store.js";
+import { RequestContext } from "@mikro-orm/core";
+import { User } from "../../../entitites/user.entity.js";
 
 
 export const login = async (loginBody: LoginBody) => {
 
-    const user = UserStore.getByEmail(loginBody.email);
+    const em = RequestContext.getEntityManager();
+    const user = await em.findOneOrFail(User, {email: loginBody.email});
 
-    if (!user || user.password !== loginBody.password ) {
+    if (user.password !== loginBody.password ) {
         throw new Unauthorized('invalidCredentials', "Invalid credentials");
     }
     

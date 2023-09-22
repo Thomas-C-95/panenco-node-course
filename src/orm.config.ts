@@ -4,6 +4,7 @@ import * as url from "node:url";
 import path from 'node:path';
 
 import config from './config.js';
+import { noEntitiyFoundError } from './utils/extensions.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -25,4 +26,5 @@ export default {
   host: config.postgres.host,
   port: config.postgres.port,
   ssl: false,
+  findOneOrFailHandler: noEntitiyFoundError,
 } as Options<PostgreSqlDriver>;
