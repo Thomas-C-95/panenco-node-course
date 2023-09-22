@@ -29,6 +29,9 @@
   "pnpm": {
     "overrides": {
       "openapi3-ts": "3.2.0"
+    },
+    "patchedDependencies": {
+      "class-transformer@0.5.1": "patches/class-transformer@0.5.1.patch"
     }
   },
   "devDependencies": {

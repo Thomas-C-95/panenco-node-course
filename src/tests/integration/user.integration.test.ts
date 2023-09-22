@@ -74,7 +74,7 @@ describe('Integration tests', () => {
             .set('x-auth',token)
             .expect(200);
 
-            // expect(updateResponse.email == 'test-user+updated@panenco.com').true;
+            expect(updateResponse.email == 'test-user+updated@panenco.com').true;
             // expect(updateResponse.name == newuser.name).true;
             // expect(updateResponse.password).undefined;
 

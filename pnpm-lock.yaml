@@ -7,6 +7,11 @@ settings:
 overrides:
   openapi3-ts: 3.2.0
 
+patchedDependencies:
+  class-transformer@0.5.1:
+    hash: 5nn2oxkqlywr6vlhmggvbjnjom
+    path: patches/class-transformer@0.5.1.patch
+
 dependencies:
   '@mikro-orm/cli':
     specifier: ^5.8.2
@@ -75,7 +80,7 @@ devDependencies:
     version: 3.5.3
   class-transformer:
     specifier: ^0.5.1
-    version: 0.5.1
+    version: 0.5.1(patch_hash=5nn2oxkqlywr6vlhmggvbjnjom)
   class-validator:
     specifier: ^0.14.0
     version: 0.14.0
@@ -742,7 +747,7 @@ packages:
       class-validator: ^0.14.0
       express: ^4.18.2
     dependencies:
-      class-transformer: 0.5.1
+      class-transformer: 0.5.1(patch_hash=5nn2oxkqlywr6vlhmggvbjnjom)
       class-validator: 0.14.0
       express: 4.18.2
       jsonwebtoken: 9.0.2
@@ -1441,9 +1446,10 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /class-transformer@0.5.1:
+  /class-transformer@0.5.1(patch_hash=5nn2oxkqlywr6vlhmggvbjnjom):
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
     dev: true
+    patched: true
 
   /class-validator-jsonschema@5.0.0(class-transformer@0.5.1)(class-validator@0.14.0):
     resolution: {integrity: sha512-F1skc5+NHZUxtVH56js1wdPKayUoIEZNpiZeNYIAJO0L6hCODmlX+lXwb26RRqTrjo0U24tNkSujn/G0zOvZoQ==}
@@ -1451,7 +1457,7 @@ packages:
       class-transformer: ^0.4.0 || ^0.5.0
       class-validator: ^0.14.0
     dependencies:
-      class-transformer: 0.5.1
+      class-transformer: 0.5.1(patch_hash=5nn2oxkqlywr6vlhmggvbjnjom)
       class-validator: 0.14.0
       lodash.groupby: 4.6.0
       lodash.merge: 4.6.2
@@ -3421,7 +3427,7 @@ packages:
       class-transformer: ^0.5.1
       class-validator: ^0.14.0
     dependencies:
-      class-transformer: 0.5.1
+      class-transformer: 0.5.1(patch_hash=5nn2oxkqlywr6vlhmggvbjnjom)
       class-validator: 0.14.0
       cookie: 0.5.0
       glob: 10.3.4
